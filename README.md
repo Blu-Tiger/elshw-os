@@ -19,7 +19,7 @@ an Alpine-based initramfs, and your hardware specs.
 ### Example output:
 ```bash
 ╔══════════════════════════════════════════════════════════╗
-║                 SYSTEM HARDWARE CATALOG                  ║
+║              ESSENTIAL SYSTEM HARDWARE LIST              ║
 ╚══════════════════════════════════════════════════════════╝
 
 ▶ 🖥️  PROCESSOR (CPU)
