@@ -1,4 +1,4 @@
-# elshw-os (Essential List Hardware OS)
+# lsehw-os (List Essential Hardware OS)
 
 A minimal, under 20MB, custom Linux distribution that boots directly into a hardware 
 information script. No desktop, no package manager — just a kernel, 
@@ -7,7 +7,7 @@ an Alpine-based initramfs, and your hardware specs.
 ## Run via:
 - Live OS on USB
 - Live OS over PXE
-- `sudo bash elshw.sh` directly.
+- `sudo ./lsehw.sh` directly.
 
 ## What it shows
 - CPU model, cores, threads, speed
@@ -74,13 +74,13 @@ sudo dnf install gcc make elfutils-libelf-devel wget mtools dosfstools xorriso
 
 ### Download and build
 ```bash
-git clone https://github.com/Blu-Tiger/elshw-os
-cd elshw-os
-chmod +x build.sh
+git clone https://github.com/Blu-Tiger/lsehw-os
+cd lsehw-os
+chmod +x build.sh lsehw.sh src/fs-init
 ./build.sh
 ```
 
-Output: `./iso/elshw-l(limeline-version)-k(kernel-version)-a(alpine-version)-(script-version).iso`
+Output: `./iso/lsehw-l(limeline-version)-k(kernel-version)-a(alpine-version)-(script-version).iso`
 
 
 ## License
