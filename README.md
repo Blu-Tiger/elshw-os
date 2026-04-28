@@ -80,7 +80,7 @@ chmod +x build.sh lsehw.sh src/fs-init
 ./build.sh
 ```
 
-Output: `./iso/lsehw-l(limeline-version)-k(kernel-version)-a(alpine-version)-(script-version).iso`
+Output: `"lsehw-v(SCRIPT-VERSION)-i(INITSCRIPT-VERSION)-a(ALPINE-VERSION)-l(LIMLINE-VERSION)-k(KERNEL-VERSION).iso"`
 
 
 ## License
