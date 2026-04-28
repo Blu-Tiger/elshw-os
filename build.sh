@@ -1,19 +1,23 @@
 #!/bin/bash
 set -e
 
+CONFIG_FILE="config.env"
+
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+    echo -e "\e[1;32m✔ Loaded configuration from $CONFIG_FILE\e[0m"
+else
+    echo -e "\e[1;31m✖ Error: Configuration file '$CONFIG_FILE' not found!\e[0m"
+    exit 1
+fi
+
 mkdir -p ./build
 cd build
 
-KERNEL_VERSION="6.19.12"
-ALPINE_VERSION="3.23.3"
-LIMLINE_VERSION="11"
-KERNEL_URL="https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${KERNEL_VERSION}.tar.xz"
-ALPINE_URL="https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-minirootfs-${ALPINE_VERSION}-x86_64.tar.gz"
-SCRIPT_VERSION="0.1"
 INITRAMFS_DIR="$(pwd)/initramfs"
 KERNEL_SRC="$(pwd)/linux-${KERNEL_VERSION}"
 KERNEL_FILE="${KERNEL_SRC}/arch/x86/boot/bzImage"
-ISO_NAME="elshw-l${LIMLINE_VERSION}-k${KERNEL_VERSION}-a${ALPINE_VERSION}-v${SCRIPT_VERSION}.iso"
+ISO_NAME="lsehw-v${SCRIPT_VERSION}-i${INITSCRIPT_VERSION}-a${ALPINE_VERSION}-l${LIMLINE_VERSION}-k${KERNEL_VERSION}.iso"
 STAGING_DIR="iso_staging"
 
 RESET="\e[0m"; BOLD="\e[1m"; DIM="\e[2m"
@@ -58,7 +62,7 @@ echo -e "${CYAN}${BOLD}▶ Extracting Alpine rootfs...${RESET}"
 mkdir -p "$INITRAMFS_DIR"
 sudo tar -xf alpine-minirootfs-${ALPINE_VERSION}-x86_64.tar.gz -C "$INITRAMFS_DIR" \
     --exclude="./init" \
-    --exclude="./elshw.sh"
+    --exclude="./lsehw.sh"
 sudo cp /etc/resolv.conf "$INITRAMFS_DIR/etc/"
 
 echo -e "${CYAN}${BOLD}▶ Installing packages in chroot...${RESET}"
@@ -104,11 +108,11 @@ action=/etc/acpi/PWRF/00000080
 EOF
 
 
-echo -e "${CYAN}${BOLD}▶ Installing init and elshw.sh...${RESET}"
+echo -e "${CYAN}${BOLD}▶ Installing init and lsehw.sh...${RESET}"
 sudo cp ../src/fs-init "$INITRAMFS_DIR/init"
-sudo cp ../elshw.sh "$INITRAMFS_DIR/elshw.sh"
-sudo chmod +x "$INITRAMFS_DIR/init" "$INITRAMFS_DIR/elshw.sh"
-sudo sed -i 's/\r$//' "$INITRAMFS_DIR/init" "$INITRAMFS_DIR/elshw.sh"
+sudo cp ../lsehw.sh "$INITRAMFS_DIR/lsehw.sh"
+sudo chmod +x "$INITRAMFS_DIR/init" "$INITRAMFS_DIR/lsehw.sh"
+sudo sed -i 's/\r$//' "$INITRAMFS_DIR/init" "$INITRAMFS_DIR/lsehw.sh"
 
 if [ ! -d "$KERNEL_SRC" ]; then
     echo -e "${CYAN}${BOLD}▶ Downloading Linux kernel ${KERNEL_VERSION}...${RESET}"
@@ -160,7 +164,7 @@ cp -v limine/BOOTIA32.EFI "$STAGING_DIR/EFI/BOOT/"
 mkdir -p ../iso
 echo -e "${CYAN}${BOLD}▶ Generating Limine ISO...${RESET}"
 
-rm -r "../iso/$ISO_NAME"
+rm -rf "../iso/$ISO_NAME"
 
 xorriso -as mkisofs -b boot/limine/limine-bios-cd.bin \
     -no-emul-boot -boot-load-size 4 -boot-info-table \
