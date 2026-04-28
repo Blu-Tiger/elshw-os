@@ -30,7 +30,7 @@ dmesg -n 1
 clear
 
 while true; do
-    /bin/bash /elshw.sh
+    /bin/bash /lsehw.sh
     echo -e ""
     echo -e "\033[1;36m════════════════════════════════════════════════════════════\033[0m"
     echo -e ""
